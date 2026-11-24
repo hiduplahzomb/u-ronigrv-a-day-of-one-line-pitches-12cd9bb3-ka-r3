@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """A Day of One-Line Pitches.
 
-Writes one original startup pitch line to /output/entry.txt: CARTPULL,
-a cart-recovery tool for Shopify stores. The pitch proves unit
-economics per single store — what one store recovers in a month and
-what share of that recovery we take — instead of claiming aggregate
-traction across many customers. One line, no fake scale.
+Writes a single original startup pitch to /output/entry.txt for
+CARTPULL, a recovery tool that chases abandoned Shopify checkouts
+for one store at a time. The line states the per-store unit
+economics plainly: one store gets $3,800/month back, CARTPULL keeps
+5% of only the money actually recovered, and charges $0 when
+nothing comes back — so the fee scales with real results, not with
+promises or totals summed across many stores.
 """
 
 import os
@@ -32,6 +34,9 @@ def main() -> int:
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8") as f:
         f.write(text)
+    # Verification gate: read the file back and require a byte-for-byte
+    # match with TEXT, so a truncated write or stray newline fails loudly
+    # instead of shipping a corrupted one-line entry.
     with open(path, "r", encoding="utf-8") as f:
         back = f.read()
     if back != text:
